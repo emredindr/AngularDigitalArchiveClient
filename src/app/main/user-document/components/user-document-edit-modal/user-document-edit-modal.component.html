@@ -1,0 +1,70 @@
+<div bsModal #userDocumentEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #formUserDocumentEdit="ngForm">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Doküman Adı</label>
+                                <input class="form-control py-4" name="name" #nameCtrl="ngModel"
+                                    [(ngModel)]="userDocumentInput.documentTitle" type="text"
+                                    placeholder="Döküman adını giriniz :" required />
+                                <validation-messages [formCtrl]="nameCtrl"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1">Kullanıcı Adı</label>
+                        <!-- <p-dropdown #userCtrl="ngModel" [options]="userList" (onChange)="onChangeUser($event.value)"
+                            [(ngModel)]="selectedUser" placeholder="Kullanıcı seçiniz :" name="userId"
+                            optionLabel="name" styleClass="w-100" [required]="true" [showClear]="true"></p-dropdown>
+                        <validation-messages [formCtrl]="userCtrl"></validation-messages> -->
+
+                        <nz-select #userCtrl="ngModel" name="userId" [(ngModel)]="userDocumentInput.userId"
+                            nzSize="large" nzAllowClear required nzPlaceHolder="Seç">
+                            <nz-option *ngFor="let option of userList" [nzLabel]="option.name" [nzValue]="option.id">
+                            </nz-option>
+                        </nz-select>
+                        <validation-messages [formCtrl]="userCtrl"></validation-messages>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1">Kategori Adı</label>
+                        <nz-select #categoryCtrl="ngModel" name="categoryId" [(ngModel)]="userDocumentInput.categoryId"
+                            nzSize="large" nzAllowClear required nzPlaceHolder="Seç">
+                            <nz-option *ngFor="let option of categoryList" [nzLabel]="option.name" [nzValue]="option.id">
+                            </nz-option>
+                        </nz-select>
+                        <validation-messages [formCtrl]="categoryCtrl"></validation-messages>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1">Doküman yükle</label>
+                        <p-fileUpload name="myfile[]" [url]="uploadDocumentUrl" (onUpload)="onUploadDocument($event)">
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedDocuments.length">
+                                    <li *ngFor="let file of uploadedDocuments">{{file.documentId}} - {{file.documentName}} bytes</li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-default" (click)="hide()">İptal</button>
+                    <button class="btn btn-primary" (click)="editUserDocument()">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

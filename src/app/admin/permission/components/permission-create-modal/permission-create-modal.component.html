@@ -1,0 +1,46 @@
+<div bsModal #permissionCreateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #formEdit="ngForm">
+                    <div class="form-group">
+                        <label class="small mb-1">Ad</label>
+                        <input class="form-control py-4" name="name" #nameCtrl="ngModel"
+                            [(ngModel)]="permissionInput.name" type="text" placeholder="Yetki adını giriniz :"
+                            required />
+                        <validation-messages [formCtrl]="nameCtrl"></validation-messages>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1">Yetki Grubu</label>
+                        <p-dropdown #permissionGroupCtrl="ngModel" [options]="permissionGroupList"
+                            (onChange)="onChangePermissionGroup($event.value)" [(ngModel)]="selectedPermissionGroup"
+                            placeholder="Yetki grubu seçiniz : " name="permissionGroupId" optionLabel="name"
+                            styleClass="w-100" [required]="true" [showClear]="true"></p-dropdown>
+                        <validation-messages [formCtrl]="permissionGroupCtrl"></validation-messages>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1">Açıklama</label>
+                        <textarea class="form-control py-4" type="text" name="description" #descriptionCtrl="ngModel"
+                            required [(ngModel)]="permissionInput.description" placeholder="Açıklama giriniz :">
+                        </textarea>
+                        <validation-messages [formCtrl]="descriptionCtrl"></validation-messages>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-default" (click)="hide()">İptal</button>
+                    <button class="btn btn-primary" [disabled]="!formEdit.form.valid"
+                        (click)="createPermission()">Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

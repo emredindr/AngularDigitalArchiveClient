@@ -1,0 +1,82 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<div class="input-group m-2 p-1">
+    <input class="form-control" type="text" placeholder="Search for..." [(ngModel)]="searchText" />
+    <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" (click)="reloadPage()">
+            <fa-icon [icon]="['fas', 'search']"></fa-icon>
+        </button>
+        <button class="btn btn-success ml-1 p-1" type="button" (click)="showCreatePermissionModal()">
+            <fa-icon [icon]="['fas', 'user']"></fa-icon>
+            Yetki Ekle
+        </button>
+    </div>
+</div>
+
+<p-table [value]="permissionList" [lazy]="true" (onLazyLoad)="loadPermissions($event)" responsiveLayout="scroll" dataKey="id"
+    [paginator]="false" [rows]="_primengTableHelper.defaultRecordsCountPerPage" [totalRecords]="_primengTableHelper.totalRecordsCount"
+    [loading]="loading" [responsive]="_primengTableHelper.isResponsive" #dataTable>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>PermissionGroup Name</th>
+
+            <th>Aksiyonlar</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-permission>
+        <tr>
+            <td>{{ permission.name }}</td>
+            <td>{{ permission.description }}</td>
+            <td>{{ permission.permissionGroupName }}</td>
+
+            <td>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                        aria-controls="dropdown-animated">
+                        İşlemler <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                        aria-labelledby="button-animated">
+                        <li role="menuitem" (click)="showEditPermissionModal(permission.id)" >
+                            
+                            <a class="dropdown-item">Düzenle</a>
+                        </li>
+                        <li role="menuitem" (click)="confirmDeletePermission(permission.id)">
+                            <a class="dropdown-item">Sil</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<div class="primeng-no-data" *ngIf="_primengTableHelper.totalRecordsCount == 0">
+
+    Kayıt bulunamadı!
+
+</div>
+
+<div class="primeng-paging-container">
+
+    <p-paginator [rows]="_primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="loadPermissions($event)"
+        [totalRecords]="_primengTableHelper.totalRecordsCount"
+        [rowsPerPageOptions]="_primengTableHelper.predefinedRecordsCountPerPage">
+
+    </p-paginator>
+
+    <span class="total-records-count">
+        'TotalRecordsCount'
+        {{_primengTableHelper.totalRecordsCount}}
+
+    </span>
+
+</div>
+
+
+<app-permission-edit-modal #permissionEditModal [modalTitle]="'Yetki Güncelle'" (modalSave)="reloadPage()"></app-permission-edit-modal>
+
+<app-permission-create-modal #permissionCreateModal [modalTitle]="'Yetki Ekle'" (modalSave)="reloadPage()"></app-permission-create-modal> 

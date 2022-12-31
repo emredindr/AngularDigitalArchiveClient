@@ -1,0 +1,23 @@
+<div bsModal #userPermissionEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <p-tree [value]="userPermissionTreeData"  selectionMode="checkbox" [(selection)]="selectedUserPermissionTreeData" (onNodeSelect)="nodeSelect($event)"></p-tree>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-default" (click)="hide()">İptal</button>
+                    <button class="btn btn-primary" 
+                        (click)="updateUserPermission()">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- [disabled]="!formEdit.form.valid" -->

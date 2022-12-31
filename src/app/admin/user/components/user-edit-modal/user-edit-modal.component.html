@@ -1,0 +1,69 @@
+<div bsModal #userEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #formEdit="ngForm">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Ad</label>
+                                <input class="form-control py-4" name="name" #nameCtrl="ngModel"
+                                    [(ngModel)]="userInput.name" type="text" placeholder="Enter first name" required />
+                                <validation-messages [formCtrl]="nameCtrl"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Soyad</label>
+                                <input class="form-control py-4" name="surname" #surname="ngModel"
+                                    [(ngModel)]="userInput.surname" type="text" placeholder="Enter last name" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Kullanıcı Adı</label>
+                                <input class="form-control py-4" [(ngModel)]="userInput.userName" type="text"
+                                    name="userName" placeholder="test@example.com" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Doğum Tarihi</label>
+                                <input class="form-control py-4" [(ngModel)]="userInput.birthDate" type="text" #dp="bsDatepicker" bsDatepicker
+                                    name="birthDay" placeholder="Doğum Tarihi" />
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <input placeholder="Datepicker" class="form-control" #dp="bsDatepicker" bsDatepicker>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="small mb-1">Email</label>
+                        <input class="form-control py-4" type="text" name="email" [(ngModel)]="userInput.email"
+                            placeholder="Enter email address" />
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-default" (click)="hide()">İptal</button>
+                    <button class="btn btn-primary" [disabled]="!formEdit.form.valid"
+                        (click)="updateUser()">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

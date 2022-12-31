@@ -1,0 +1,103 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<div class="row">
+    <div class="col-md-3">
+        <!-- //tree table -->
+        <div style="margin-bottom: 1rem">
+            <button pButton type="button" label="Expand all" (click)="expandAll()" style="margin-right: .5rem"></button>
+            <button pButton type="button" label="Collapse all" (click)="collapseAll()"></button>
+        </div>
+        <p-tree [value]="categoryTreeData" selectionMode="single" [filter]="true" filterMode="strict"
+            (onNodeSelect)="nodeSelect($event)"></p-tree>
+        <!-- <p-tree [value]="files1" selectionMode="single" [(selection)]="selectedFile"
+    (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree> -->
+    </div>
+    <div class="col-md-9">
+        <div class="input-group m-2 p-1">
+            <input class="form-control" type="text" placeholder="Search for..." [(ngModel)]="searchText" />
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button" (click)="reloadPage()">
+                    <fa-icon [icon]="['fas', 'search']"></fa-icon>
+                </button>
+                <button class="btn btn-success ml-1 p-1" type="button" (click)="showCreateUserDocumentModal()">
+                    <fa-icon [icon]="['fas', 'user']"></fa-icon>
+                    Belge Ekle
+                </button>
+            </div>
+        </div>
+
+        <p-table [value]="userDocumentList" [lazy]="true" (onLazyLoad)="loadUserDocuments($event)"
+            responsiveLayout="scroll" dataKey="id" [paginator]="false"
+            [rows]="_primengTableHelper.defaultRecordsCountPerPage"
+            [totalRecords]="_primengTableHelper.totalRecordsCount" [loading]="loading"
+            [responsive]="_primengTableHelper.isResponsive" #dataTable>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Belge No</th>
+                    <th>Kullanıcı Bilgisi</th>
+                    <th>Kategori Adı</th>
+                    <th>Belge Adı</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Aksiyonlar</th>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-userDocument>
+                <tr>
+                    <td>{{ userDocument.userDocumentId}}</td>
+                    <td>{{ userDocument.documentUser.fullName }}</td>
+                    <td>{{ userDocument.documentCategory.name }}</td>
+                    <td>{{ userDocument.documentInfo.name }}</td>
+                    <td>{{userDocument.creationTime | date:'dd-MM-yyyy'}} </td>
+                    <td>
+                        <div class="btn-group" dropdown>
+                            <button id="button-animated" dropdownToggle type="button"
+                                class="btn btn-primary dropdown-toggle" aria-controls="dropdown-animated">
+                                İşlemler <span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="button-animated">
+                                <li role="menuitem" (click)="showEditUserDocumentModal(userDocument.userDocumentId)">
+
+                                    <a class="dropdown-item">Düzenle</a>
+                                </li>
+                                <li role="menuitem" (click)="deleteUserDocument()">
+                                    <a class="dropdown-item">Sil</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <div class="primeng-no-data" *ngIf="_primengTableHelper.totalRecordsCount == 0">
+
+            Kayıt bulunamadı!
+
+        </div>
+
+        <div class="primeng-paging-container">
+
+            <p-paginator [rows]="_primengTableHelper.defaultRecordsCountPerPage" #paginator
+                (onPageChange)="loadUserDocuments($event)" [totalRecords]="_primengTableHelper.totalRecordsCount"
+                [rowsPerPageOptions]="_primengTableHelper.predefinedRecordsCountPerPage">
+
+            </p-paginator>
+
+            <span class="total-records-count">
+                Toplam Kayıt : {{_primengTableHelper.totalRecordsCount}}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <app-user-document-edit-modal #userDocumentEditModal [modalTitle]="'Doküman Güncelle'" (modalSave)="reloadPage()">
+    </app-user-document-edit-modal>
+    <app-user-document-create-modal #userDocumentCreateModal [modalTitle]="'Döküman Ekle'" (modalSave)="reloadPage()">
+    </app-user-document-create-modal>

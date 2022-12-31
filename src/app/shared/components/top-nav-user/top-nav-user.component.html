@@ -1,0 +1,20 @@
+<!-- *ngIf="userService.user$ | async as user" -->
+<li class="nav-item dropdown dropdown-user no-caret"  ngbDropdown placement="bottom-right" display="dynamic">
+    <a class="nav-link dropdown-toggle" id="userDropdown" ngbDropdownToggle data-cy="userMenu" role="button" aria-haspopup="true" aria-expanded="false">
+        <fa-icon [icon]='["fas", "user"]'></fa-icon>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownUser">
+        <h6 class="dropdown-header">
+            <div class="dropdown-user-details">
+                <div class="dropdown-user-details-name">{{ userInfo.name}}  {{userInfo.surname }}</div>
+                <div class="dropdown-user-details-email"> {{ userInfo.email}}</div>
+            </div>
+        </h6>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item">Settings</a>
+        <a class="dropdown-item">Activity Log</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()" >Çıkış Yap</a>
+
+    </div>
+</li>

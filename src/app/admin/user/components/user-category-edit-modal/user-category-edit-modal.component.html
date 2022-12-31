@@ -1,0 +1,28 @@
+<div bsModal #userCategoryEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <div style="margin-bottom: 1rem">
+                <button pButton type="button" label="Expand all" (click)="expandAll()"
+                    style="margin-right: .5rem"></button>
+                <button pButton type="button" label="Collapse all" (click)="collapseAll()"></button>
+            </div> -->
+            <p-tree [value]="userCategoryTreeData" selectionMode="checkbox" [(selection)]="selectedUserCategoryTreeData" [filter]="true" filterMode="strict"
+                ></p-tree>
+
+
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-default" (click)="hide()">İptal</button>
+                    <button class="btn btn-primary" (click)="updateUserCategory()">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
