@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 import { blobToText, throwException } from './common/extension.service';
 import { LocalStorageService } from './local-storage.service';
 import { AppConsts } from './constracts/AppConsts';
+import { environment } from 'src/environments/environment';
 
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -18,7 +19,9 @@ export class CategoryService {
 
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = "https://localhost:7048";
+        // this.baseUrl = "https://localhost:7048";
+        this.baseUrl =environment.baseUrl;
+
     }
 
     /**
@@ -26,7 +29,8 @@ export class CategoryService {
      * @return Success
      */
     getCategoryById(categoryId: number | undefined): Observable<GetAllCategoryInfo> {
-        let url_ = this.baseUrl + "/api/Category/GetCategoryById?";
+        // let url_ = this.baseUrl + "/api/Category/GetCategoryById?";
+        let url_ = `${this.baseUrl}/api/Category/GetCategoryById?`;
         if (categoryId === null)
             throw new Error("The parameter 'categoryId' cannot be null.");
         else if (categoryId !== undefined)

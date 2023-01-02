@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 import { blobToText, throwException } from './common/extension.service';
 import { AppConsts } from './constracts/AppConsts';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -17,7 +18,9 @@ export class CategoryTypeService {
 
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService ,@Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl ="https://localhost:7048";
+        // this.baseUrl ="https://localhost:7048";
+        this.baseUrl =environment.baseUrl;
+
     }
 
     /**
@@ -27,7 +30,9 @@ export class CategoryTypeService {
      * @return Success
      */
     getAllCategoryTypeByPage(searchText: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<GetAllCategoryTypeInfoPagedResult> {
-        let url_ = this.baseUrl + "/api/CategoryType/GetAllCategoryTypeByPage?";
+        // let url_ = this.baseUrl + "/api/CategoryType/GetAllCategoryTypeByPage?";
+        let url_ = `${this.baseUrl}/api/CategoryType/GetAllCategoryTypeByPage?`;
+        
         if (searchText === null)
             throw new Error("The parameter 'searchText' cannot be null.");
         else if (searchText !== undefined)

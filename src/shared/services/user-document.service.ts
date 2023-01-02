@@ -8,6 +8,7 @@ import { blobToText, throwException } from './common/extension.service';
 import { DateTime, Duration } from "luxon";
 import { AppConsts } from './constracts/AppConsts';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -20,7 +21,9 @@ export class UserDocumentService {
 
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl ="https://localhost:7048";
+        // this.baseUrl ="https://localhost:7048";
+        this.baseUrl =environment.baseUrl;
+
     }
 
     /**
@@ -32,7 +35,8 @@ export class UserDocumentService {
      * @return Success
      */
     getAllUserDocumentByPage(searchText: string | undefined, categoryId: number | undefined, userId: number | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<GetAllUserDocumentInfoPagedResult> {
-        let url_ = this.baseUrl + "/api/UserDocument/GetAllUserDocumentByPage?";
+        // let url_ = this.baseUrl + "/api/UserDocument/GetAllUserDocumentByPage?";
+        let url_ = `${this.baseUrl}/api/UserDocument/GetAllUserDocumentByPage?`;
         if (searchText === null)
             throw new Error("The parameter 'searchText' cannot be null.");
         else if (searchText !== undefined)

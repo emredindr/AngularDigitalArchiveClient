@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 import { LocalStorageService } from './local-storage.service';
 
 import { AppConsts } from 'src/shared/services/constracts/AppConsts';
+import { environment } from 'src/environments/environment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -20,7 +21,9 @@ export class UserService {
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string
     ) {
         this.http = http;
-        this.baseUrl ="https://localhost:7048" ;
+        // this.baseUrl ="https://localhost:7048" ;
+        this.baseUrl =environment.baseUrl;
+
     }
 
     /**
@@ -28,7 +31,8 @@ export class UserService {
      * @return Success
      */
      getUserById(userId: number | undefined): Observable<GetAllUserInfo> {
-        let url_ =this.baseUrl + "/api/User/GetUserById?";
+        // let url_ =this.baseUrl + "/api/User/GetUserById?";
+        let url_ = `${this.baseUrl}/api/User/GetUserById?`;
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
         else if (userId !== undefined)

@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 import { blobToText, throwException } from './common/extension.service';
 import { AppConsts } from './constracts/AppConsts';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -17,7 +18,8 @@ export class UserPermissionService {
 
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = "https://localhost:7048"
+        // this.baseUrl = "https://localhost:7048"
+        this.baseUrl =environment.baseUrl;
     }
 
     /**
@@ -25,7 +27,8 @@ export class UserPermissionService {
      * @return Success
      */
     getPermissionGroupAndPermission(userId: number | undefined): Observable<GetPermissionGroupAndPermissionListListResult> {
-        let url_ = this.baseUrl + "/api/UserPermission/GetPermissionGroupAndPermission?";
+        // let url_ = this.baseUrl + "/api/UserPermission/GetPermissionGroupAndPermission?";
+        let url_ = `${this.baseUrl}/api/UserPermission/GetPermissionGroupAndPermission?`;
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
         else if (userId !== undefined)

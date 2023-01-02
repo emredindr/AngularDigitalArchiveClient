@@ -8,6 +8,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 import { LocalStorageService } from './local-storage.service';
 import { AppConsts } from './constracts/AppConsts';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class PermissionService {
@@ -17,7 +18,9 @@ export class PermissionService {
 
     constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = "https://localhost:7048"
+        // this.baseUrl = "https://localhost:7048"
+        this.baseUrl =environment.baseUrl;
+
     }
    
    
@@ -26,7 +29,8 @@ export class PermissionService {
      * @return Success
      */
     getPermissionById(permissionId: number | undefined): Observable<GetAllPermissionInfo> {
-        let url_ = this.baseUrl + "/api/Permission/GetPermissionById?";
+        // let url_ = this.baseUrl + "/api/Permission/GetPermissionById?";
+        let url_ = `${this.baseUrl}/api/Permission/GetPermissionById?`;
         if (permissionId === null)
             throw new Error("The parameter 'permissionId' cannot be null.");
         else if (permissionId !== undefined)

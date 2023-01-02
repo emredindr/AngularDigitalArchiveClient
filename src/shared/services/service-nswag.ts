@@ -4503,7 +4503,7 @@ export enum UserStatusEnum {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
@@ -4548,5 +4548,3 @@ function blobToText(blob: any): Observable<string> {
         }
     });
 }
-
-C:\Users\emre_\source\DigitalArchiveClient\nswag\service.extensions.ts

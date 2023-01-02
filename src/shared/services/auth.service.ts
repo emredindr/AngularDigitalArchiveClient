@@ -3,6 +3,7 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { blobToText, throwException } from './common/extension.service';
+import { environment } from 'src/environments/environment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 //   let url_ = "https://localhost:7048/api/Auth/Authenticate";
@@ -14,7 +15,9 @@ export class AuthService {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+        // this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+        this.baseUrl =environment.baseUrl;
+
     }
 
        /**
@@ -22,7 +25,9 @@ export class AuthService {
      * @return Success
      */
         authenticate(body: UserLoginInput | undefined): Observable<UserLoginOutput> {
-            let url_ = "https://localhost:7048/api/Auth/Authenticate";
+            // let url_ = "https://localhost:7048/api/Auth/Authenticate";
+            let url_ = `${this.baseUrl}/api/Auth/Authenticate`;
+
             url_ = url_.replace(/[?&]$/, "");
     
             const content_ = JSON.stringify(body);
