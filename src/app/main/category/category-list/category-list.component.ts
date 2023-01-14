@@ -60,17 +60,22 @@ export class CategoryListComponent implements OnInit {
         }
       );
   }
+
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());
   }
+
   deleteCategory(categoryId: number) {
+    this.loading=true;
+
     this._categoryService.deleteCategory(categoryId)
     .pipe(finalize(() => { this.loading = false; }))
       .subscribe(() => { 
         // toast mesaage gösterilecek
-        this.reloadPage(); });
-
+        this.reloadPage(); 
+      });
   }
+  
   confirmDeleteCategory(categoryId: number) {
     Swal.fire({
       title: 'Are you sure want to remove?',
@@ -82,9 +87,15 @@ export class CategoryListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.deleteCategory(categoryId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
       }
     })
   }
+
   showCreateCategoryModal() {
     this.categoryCreateModal.show();
   }

@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { Breadcrumb } from 'src/app/shared/models/navigation.model';
 import { PrimengTableHelper } from 'src/shared/helpers/PrimengTableHelper';
 import { GetAllPermissionGroupInfo, PermissionGroupService } from 'src/shared/services/permission-group.service';
+import Swal from 'sweetalert2';
 import { PermissionGroupCreateModalComponent } from '../components/permission-group-create-modal/permission-group-create-modal.component';
 import { PermissionGroupEditModalComponent } from '../components/permission-group-edit-modal/permission-group-edit-modal.component';
 
@@ -73,6 +74,26 @@ export class PermissionGroupListComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  
+  confirmDeletePermissionGroup(permissionGroupId: number) {
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.deletePermissionGroup(permissionGroupId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
   }
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());

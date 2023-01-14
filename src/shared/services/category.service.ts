@@ -337,11 +337,10 @@ export class CategoryService {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-            //   "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processDeleteCategory(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {

@@ -9,6 +9,7 @@ import { Paginator } from 'primeng/paginator';
 import { UserPermissionEditModalComponent } from '../components/user-permission-edit-modal/user-permission-edit-modal.component';
 import { Breadcrumb } from 'src/app/shared/models/navigation.model';
 import { UserCategoryEditModalComponent } from '../components/user-category-edit-modal/user-category-edit-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-list',
@@ -74,6 +75,7 @@ this.paginator.changePage(this.paginator.getPage());
   showEditUserCategoryModal(userId: number){
     this.userCategoryEditModal.show(userId)
   }
+  
   deleteUser(userId: number) {
     this.loading = true;
 
@@ -89,6 +91,27 @@ this.paginator.changePage(this.paginator.getPage());
       }
     );
   }
+
+  confirmDeleteUser(userId: number) {
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteUser(userId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+  
   loadBreadcrumbs() {
     this.breadcrumbs.push(
       { text: "Ana Sayfa", active: false, link: "/main/home/dashboard" },

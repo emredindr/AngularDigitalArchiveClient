@@ -90,6 +90,11 @@ export class PermissionListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.deletePermission(permissionId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
       }
     })
   }
