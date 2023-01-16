@@ -10,6 +10,9 @@ import { UserPermissionEditModalComponent } from '../components/user-permission-
 import { Breadcrumb } from 'src/app/shared/models/navigation.model';
 import { UserCategoryEditModalComponent } from '../components/user-category-edit-modal/user-category-edit-modal.component';
 import Swal from 'sweetalert2';
+import { LocalStorageService } from 'src/shared/services/local-storage.service';
+import { AppConsts } from 'src/shared/services/constracts/AppConsts';
+import { UserLoginOutput } from 'src/shared/services/auth.service';
 
 @Component({
   selector: 'app-user-list',
@@ -28,15 +31,22 @@ export class UserListComponent implements OnInit {
   _primengTableHelper:PrimengTableHelper;
   searchText: string = '';
   userList: GetAllUserInfo[] = [];
-
+  userInfo: UserLoginOutput = new UserLoginOutput();
   breadcrumbs: Breadcrumb[] = [];
   
   loading: boolean=false;
 
-  constructor(private _userService: UserService) {
+  constructor(private _userService: UserService,private _localStorageService: LocalStorageService,) {
     this._primengTableHelper=new  PrimengTableHelper();
+    
   }
 
+  loadUserInfo() {
+    let user = this._localStorageService.getItem(AppConsts.lsUser);
+    //if(user!=null && user != undifined)
+    if (user) this.userInfo = JSON.parse(user) as UserLoginOutput;
+  }
+  
   loadUsers(event: LazyLoadEvent) {
     if(this._primengTableHelper.shouldResetPaging(event)){
       this.paginator.changePage(0);
@@ -49,15 +59,10 @@ export class UserListComponent implements OnInit {
 
     this._userService.getAllUsersByPage(this.searchText, undefined, skipCount, maxResultCount).subscribe(
       (response) => {
-        this.userList = response.items as GetAllUserInfo[];
+        this.userList = response.items?.filter(x=> x.email != this.userInfo.email ) as GetAllUserInfo[];
         this._primengTableHelper.totalRecordsCount = response.totalCount;
         this.loading = false;
-      },
-      (responseError) => {
-        console.log(responseError);
-        this.loading = false;
-      }
-    );
+      });
   }
   reloadPage():void{
 this.paginator.changePage(this.paginator.getPage());
@@ -83,10 +88,6 @@ this.paginator.changePage(this.paginator.getPage());
       (response) => {
         this.reloadPage();
         // this.loadUsers();
-        this.loading = false;
-      },
-      (responseError) => {
-        console.log(responseError);
         this.loading = false;
       }
     );
@@ -119,5 +120,6 @@ this.paginator.changePage(this.paginator.getPage());
   }
   ngOnInit() {
     this.loadBreadcrumbs();
+    this.loadUserInfo();
   }
 }

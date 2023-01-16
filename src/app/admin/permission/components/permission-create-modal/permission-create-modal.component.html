@@ -17,6 +17,7 @@
                             required />
                         <validation-messages [formCtrl]="nameCtrl"></validation-messages>
                     </div>
+                    
                     <div class="form-group">
                         <label class="small mb-1">Yetki Grubu</label>
                         <p-dropdown #permissionGroupCtrl="ngModel" [options]="permissionGroupList"
@@ -25,6 +26,7 @@
                             styleClass="w-100" [required]="true" [showClear]="true"></p-dropdown>
                         <validation-messages [formCtrl]="permissionGroupCtrl"></validation-messages>
                     </div>
+                    
                     <div class="form-group">
                         <label class="small mb-1">Açıklama</label>
                         <textarea class="form-control py-4" type="text" name="description" #descriptionCtrl="ngModel"

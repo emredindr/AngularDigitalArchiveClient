@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService, UserLoginInput } from 'src/shared/services/auth.service';
 import { AppConsts } from 'src/shared/services/constracts/AppConsts';
 import { LocalStorageService } from 'src/shared/services/local-storage.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
       email: ["",Validators.required],
-      password:[""]
+      password:["",Validators.required]
     })
   }
 
@@ -46,9 +47,7 @@ export class LoginComponent implements OnInit {
         this._localStorageService.setItem(AppConsts.lsUser, JSON.stringify(response));
 
         this._toastrService.info(response.userName);
-        this.router.navigate(["main/home/dashboard"]);
-
-        
+        this.router.navigate(["main/home/dashboard"]); 
       })
     }
   }

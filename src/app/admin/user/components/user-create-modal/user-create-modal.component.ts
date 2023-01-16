@@ -13,22 +13,18 @@ export class UserCreateModalComponent implements OnInit {
   @Output() modalSave:EventEmitter<any>=new EventEmitter<any>(); 
   @Input() modalTitle:string="";
 
-
-
   userInput:CreateUserInput=new CreateUserInput();
   loading: boolean;
  
   constructor(private _userService: UserService) { }
-
+  
   show() {
-
     this.userCreateModal.show();
-    
-    
   }
+
   createUser(){
     this.loading = true;
-    // this.userInput.birthDate=undefined;s
+    // this.userInput.birthDate=undefined;
     this._userService.createUser(this.userInput).subscribe(response => {
      
       this.clearModal();
@@ -52,6 +48,7 @@ export class UserCreateModalComponent implements OnInit {
       this.hide();
       this.modalSave.emit();
   }
+  
   ngOnInit(): void {
   }
 

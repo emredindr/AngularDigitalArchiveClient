@@ -7,14 +7,18 @@
         </div>
         <div class="card-body">
           <form [formGroup]="loginForm">
-            <div class="form-group">
+            <div class="form-group was-validated">
               <label class="small mb-1">Email</label>
-              <input class="form-control py-4" formControlName="email" type="email" placeholder="name@example.com" />
+              <input class="form-control py-4" formControlName="email" type="email" placeholder="name@example.com" required/>
+              <div class="valid-feedback">Geçerli.</div>
+              <div class="invalid-feedback">Lütfen geçerli bir mail adresi giriniz !</div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group was-validated">
               <label class="small mb-1" >Parola</label>
-              <input class="form-control py-4" formControlName="password" type="password" placeholder="*********" />
+              <input class="form-control py-4" formControlName="password" type="password" placeholder="*********" required/>
+              <div class="valid-feedback">Geçerli.</div>
+              <div class="invalid-feedback">Lütfen geçerli bir şifre adresi giriniz !</div>
             </div>
 
             <div class="form-group">

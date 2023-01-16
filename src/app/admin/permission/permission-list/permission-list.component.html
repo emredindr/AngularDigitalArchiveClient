@@ -18,10 +18,9 @@
     [loading]="loading" [responsive]="_primengTableHelper.isResponsive" #dataTable>
     <ng-template pTemplate="header">
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>PermissionGroup Name</th>
-
+            <th>Yetki Adı</th>
+            <th>Açıklama</th>
+            <th>Yetki Grup Adı</th>
             <th>Aksiyonlar</th>
         </tr>
     </ng-template>
@@ -30,7 +29,6 @@
             <td>{{ permission.name }}</td>
             <td>{{ permission.description }}</td>
             <td>{{ permission.permissionGroupName }}</td>
-
             <td>
                 <div class="btn-group" dropdown>
                     <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -71,11 +69,9 @@
     <span class="total-records-count">
         'TotalRecordsCount'
         {{_primengTableHelper.totalRecordsCount}}
-
     </span>
 
 </div>
-
 
 <app-permission-edit-modal #permissionEditModal [modalTitle]="'Yetki Güncelle'" (modalSave)="reloadPage()"></app-permission-edit-modal>
 
