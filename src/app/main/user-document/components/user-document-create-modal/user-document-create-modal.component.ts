@@ -1,6 +1,8 @@
+import { JsonPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { UploadedDocumentInfo } from 'src/app/shared/models/uploaded-document.model';
+import { environment } from 'src/environments/environment';
 import { CategoryService, GetAllCategoryInfo } from 'src/shared/services/category.service';
 import { CreateUserDocumentInput, UserDocumentService } from 'src/shared/services/user-document.service';
 import { GetAllUserInfo, UserService } from 'src/shared/services/user.service';
@@ -15,7 +17,8 @@ export class UserDocumentCreateModalComponent implements OnInit {
   @ViewChild('userDocumentCreateModal') userDocumentCreateModal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   @Input() modalTitle: string = "";
-  uploadDocumentUrl: string = "https://localhost:7048/api/Document/UploadDocument";
+
+  uploadDocumentUrl: string = environment.baseUrl + "/api/Document/UploadDocumentToAzure";
   userDocumentInput: CreateUserDocumentInput = new CreateUserDocumentInput();
   loading: boolean;
   uploadedDocumentId: number;
@@ -53,13 +56,9 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
       this.loading = false;
 
-    }, responseError => {
-
-      console.log(responseError);
-      this.loading = false;
-
-    })
+    });
   }
+
   getCategoryList() {
 
     this.loading = true;
@@ -69,12 +68,7 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
       this.loading = false;
 
-    }, responseError => {
-
-      console.log(responseError);
-      this.loading = false;
-
-    })
+    });
   }
   clearModal() {
     this.clearInputs();
@@ -102,58 +96,50 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
       this.loading = false;
 
-    }, responseError => {
+    });
+  }
 
-    
-      console.log(responseError);
-      this.loading = false;
+  myUploader(event: any) {
 
-    })
+    console.log(event);
+    this.upload(event.files[0]);
+  }
+
+  upload(file: File): void {
+
+    var xhr = this.createCORSRequest('POST', this.uploadDocumentUrl);
+
+    const fd = new FormData();
+    fd.append('file', file);
+
+    xhr.send(fd);
 
   }
-  onUploadDocument(event: any) {
-    console.log(event);
-    
-    if (event.originalEvent.statusText == "OK") {
-      let document = event.originalEvent.body.result;
-      if (document && document.documentId > 0) {
-        this.uploadedDocumentId = document.documentId;
-        
-        let uploadedItem = new UploadedDocumentInfo();
-        uploadedItem.documentId = document.documentId;
-        uploadedItem.documentName=document.documentName
-        this.uploadedDocuments.push(uploadedItem);
+
+  createCORSRequest(method: string, url: string) {
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        let response = JSON.parse(xhr.responseText);
+        if (!response?.isError && response?.result?.documentId > 0) {
+          this.uploadedDocumentId = response?.result?.documentId;
+
+          let uploadedItem = new UploadedDocumentInfo();
+          uploadedItem.documentId = response?.result?.documentId;
+          uploadedItem.documentName = response?.result?.documentName
+          this.uploadedDocuments.push(uploadedItem);
+
+        } else
+          alert("Dosya yükleme sırasında hata oluştu");
       }
     }
-  }
+    xhr.open(method, url, true);
+    // xhr.setRequestHeader("Content-Type", "multipart/form-data");
 
-
-  showMessage() {
-    Swal.fire({
-      title: 'Are you sure want to remove?',
-      text: 'You will not be able to recover this file!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire(
-          'Deleted!',
-          'Your imaginary file has been deleted.',
-          'success'
-        )
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
-      }
-    })
+    return xhr;
   }
 
   ngOnInit(): void {
   }
-
 }

@@ -21,8 +21,8 @@
 
                     <div class="form-group">
                         <label class="small mb-1">Yetki Grubu</label>
-                        <nz-select #permissionGroupIdCtrl="ngModel" name="permissionGroupId" [(ngModel)]="permissionInput.permissionGroupId" 
-                                nzSize="large" nzAllowClear required nzPlaceHolder="Seç" styleClass="w-100">
+                        <nz-select  #permissionGroupIdCtrl="ngModel" name="permissionGroupId" [(ngModel)]="permissionInput.permissionGroupId" 
+                                nzSize="large" nzAllowClear required nzPlaceHolder="Seç" >
                         <nz-option *ngFor="let option of permissionGroupList" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
                         </nz-select>
                         <validation-messages [formCtrl]="permissionGroupIdCtrl"></validation-messages>
