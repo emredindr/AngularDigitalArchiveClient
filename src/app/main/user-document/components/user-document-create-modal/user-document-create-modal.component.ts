@@ -40,15 +40,18 @@ export class UserDocumentCreateModalComponent implements OnInit {
     this.userDocumentCreateModal.show();
 
   }
+  
   hide() {
     this.userDocumentCreateModal.hide();
   }
+  
   onChangeUser(value: GetAllUserInfo) {
 
   }
   onChangeCategory(value: GetAllCategoryInfo) {
 
   }
+  
   getUserList() {
     this.loading = true;
     this._userService.getUserList().subscribe(response => {
@@ -71,6 +74,7 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
     });
   }
+  
   clearModal() {
     this.clearInputs();
     this.hide();
@@ -114,7 +118,6 @@ export class UserDocumentCreateModalComponent implements OnInit {
     fd.append('file', file);
 
     xhr.send(fd);
-
   }
 
   createCORSRequest(method: string, url: string) {
@@ -149,7 +152,7 @@ export class UserDocumentCreateModalComponent implements OnInit {
     }
     xhr.open(method, url, true);
     // xhr.setRequestHeader("Content-Type", "multipart/form-data");
-
+    
     return xhr;
   }
 

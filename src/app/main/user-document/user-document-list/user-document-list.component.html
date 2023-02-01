@@ -68,8 +68,8 @@
                                 <li role="menuitem" (click)="previewUserDocument()">
                                     <a class="dropdown-item">Görüntüle</a>
                                 </li>
-                                <li role="menuitem" (click)="downloadUserDocument()">
-                                    <a class="dropdown-item">İndir</a>
+                                <li role="menuitem" (click)="downloadUserDocument(userDocument.documentInfo.name)">
+                                    <a href={{storageBaseUrl}}{{userDocument.documentInfo.name}} class="dropdown-item">İndir</a>
                                 </li>
                                 <li role="menuitem" (click)="confirmDeleteUserDocument(userDocument.userDocumentId)">
                                     <a class="dropdown-item">Sil</a>

@@ -1,3 +1,4 @@
+import { HttpBackend } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MessageService, TreeNode } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
@@ -28,7 +29,9 @@ export class UserDocumentListComponent implements OnInit {
   loading: boolean;
   userDocumentList: GetAllUserDocumentInfo[] = [];
   categoryTreeData: TreeNode[] = []
-
+  
+  storageBaseUrl :string="https://archiveedmedia.blob.core.windows.net/documents/"
+  imageBaseUrl:string;
   constructor(private _userDocumentService: UserDocumentService, private _categoryService: CategoryService, private _messageService: MessageService) {
     this._primengTableHelper = new PrimengTableHelper();
   }
@@ -200,10 +203,14 @@ export class UserDocumentListComponent implements OnInit {
     this.userDocumentCreateModal.show();
   }
 
-  downloadUserDocument(){
-    Swal.fire('Çok yakındaa')
+  downloadUserDocument(fileName : string){
+    //  fetch(this.storageBaseUrl+fileName);
+    // // this.storageBaseUrl+fileName
+    // this.downloadImage(this.storageBaseUrl+fileName)
   }
 
+
+  
   loadBreadcrumbs() {
     this.breadcrumbs.push(
       { text: "Ana Sayfa", active: false, link: "/main/home/dashboard" },
