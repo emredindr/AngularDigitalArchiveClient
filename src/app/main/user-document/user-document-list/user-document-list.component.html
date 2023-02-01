@@ -37,6 +37,7 @@
                     <th>Kullanıcı Bilgisi</th>
                     <th>Kategori Adı</th>
                     <th>Belge Adı</th>
+                    <th>Açıklama</th>
                     <th>Kayıt Tarihi</th>
                     <th>Aksiyonlar</th>
 
@@ -49,6 +50,8 @@
                     <td>{{ userDocument.documentUser.fullName }}</td>
                     <td>{{ userDocument.documentCategory.name }}</td>
                     <td>{{ userDocument.documentInfo.name }}</td>
+                    <td>{{ userDocument.documentTitle }}</td>
+
                     <td>{{userDocument.creationTime | date:'dd-MM-yyyy'}} </td>
                     <td>
                         <div class="btn-group" dropdown>
@@ -62,7 +65,13 @@
 
                                     <a class="dropdown-item">Düzenle</a>
                                 </li>
-                                <li role="menuitem" (click)="deleteUserDocument()">
+                                <li role="menuitem" (click)="previewUserDocument()">
+                                    <a class="dropdown-item">Görüntüle</a>
+                                </li>
+                                <li role="menuitem" (click)="downloadUserDocument()">
+                                    <a class="dropdown-item">İndir</a>
+                                </li>
+                                <li role="menuitem" (click)="confirmDeleteUserDocument(userDocument.userDocumentId)">
                                     <a class="dropdown-item">Sil</a>
                                 </li>
                             </ul>

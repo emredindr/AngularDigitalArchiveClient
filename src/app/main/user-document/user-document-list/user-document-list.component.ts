@@ -56,28 +56,7 @@ export class UserDocumentListComponent implements OnInit {
           this.userDocumentList = response.items as GetAllUserDocumentInfo[];
           this._primengTableHelper.totalRecordsCount = response.totalCount;
           this.loading = false;
-        },
-        (responseError) => {
-      
-          // if () {
-          //   Swal.fire({
-          //     icon:"warning",
-          //     title: 'Data Not Exists!',
-          //     confirmButtonColor: 'green',
-          //   })
-          // }
-          // console.log(JSON.stringify(responseError));
-          // console.log(responseError.responseException);
-          
-          // console.log(responseError.response.responseException.exceptionMessage);
-          // Swal.fire(
-          //   'Deleted!',
-          //   'Your imaginary file has been deleted.',
-          //   'success'
-          // )
-          this.loading = false;
-        }
-      );
+        });
   }
   reloadPage() {
     this.paginator.changePage(this.paginator.getPage());
@@ -180,11 +159,49 @@ export class UserDocumentListComponent implements OnInit {
   showEditUserDocumentModal(userDocumentId: number) {
     this.userDocumentEditModal.show(userDocumentId);
   }
-  deleteUserDocument() {
+  
 
+  deleteUserDocument(userDocumentId: number) {
+    this.loading = true;
+
+    this._userDocumentService.deleteUserDocument(userDocumentId).subscribe(
+      (response) => {
+        this.reloadPage();
+
+        this.loading = false;
+      }
+    );
   }
+
+  confirmDeleteUserDocument(userDocumentId: number) {
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteUserDocument(userDocumentId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+  previewUserDocument(){
+    Swal.fire('Çok yakındaa')
+  }
+  
   showCreateUserDocumentModal() {
     this.userDocumentCreateModal.show();
+  }
+
+  downloadUserDocument(){
+    Swal.fire('Çok yakındaa')
   }
 
   loadBreadcrumbs() {
@@ -192,6 +209,7 @@ export class UserDocumentListComponent implements OnInit {
       { text: "Ana Sayfa", active: false, link: "/main/home/dashboard" },
       { text: "Kullanıcı Dokümanları", active: true });
   }
+
 
   ngOnInit(): void {
     this.loadBreadcrumbs();

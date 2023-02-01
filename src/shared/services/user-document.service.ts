@@ -591,11 +591,11 @@ export interface ICreateUserDocumentInput {
 
 
 export class GetAllUserDocumentInfo implements IGetAllUserDocumentInfo {
+    userDocumentId!: number;
     documentUser!: DocumentUserInfo;
     documentCategory!: DocumentCategoryInfo;
     documentCategoryType!: DocumentCategoryTypeInfo;
     documentInfo!: DocumentInfo;
-    userDocumentId!: number;
     documentTitle!: string | undefined;
     creationTime!: DateTime;
 

@@ -80,6 +80,9 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   protected normalizeRequestHeaders(request: HttpRequest<any>): HttpRequest<any> {
     var modifiedHeaders = new HttpHeaders();
     modifiedHeaders = request.headers.set('Content-Type', 'application/json');
+    modifiedHeaders = modifiedHeaders.set('Access-Control-Allow-Origin', '*');
+    modifiedHeaders = modifiedHeaders.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    
     modifiedHeaders = this.addAuthorizationHeaders(modifiedHeaders);
 
     return request.clone({

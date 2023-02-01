@@ -40,7 +40,7 @@ export class CategoryCreateModalComponent implements OnInit {
   getCategoryList(searchText: string | undefined, categoryTypeId: number | undefined, parentCategoryId: number | undefined) {
     this.loading = true;
     this._categoryService.getCategoryList(searchText, categoryTypeId, parentCategoryId).subscribe(response => {
-      debugger
+      
       this.parentCategoryList = response.items as GetAllCategoryInfo[];
 
       this.loading = false;

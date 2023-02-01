@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         this._localStorageService.setItem(AppConsts.lsUser, JSON.stringify(response));
 
         this._toastrService.info(response.userName);
-        this.router.navigate(["main/home/dashboard"]); 
+        this.router.navigate(["main/user-document/list"]); 
       })
     }
   }

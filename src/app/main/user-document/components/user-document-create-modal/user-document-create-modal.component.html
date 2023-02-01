@@ -39,15 +39,18 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1">Doküman yükle</label>
-                        <p-fileUpload name="myfile[]" [url]="uploadDocumentUrl" (onUpload)="onUploadDocument($event)">
-                            <ng-template pTemplate="content">
-                                <ul *ngIf="uploadedDocuments.length">
-                                    <li *ngFor="let file of uploadedDocuments">{{file.documentId}} - {{file.documentName}} bytes</li>
-                                </ul>
-                            </ng-template>
+                        <!-- <p-fileUpload name="myfile[]" [url]="uploadDocumentUrl" (onUpload)="onUploadDocument($event)" (onBeforeUpload)="onBeforeSend($event)"> -->
+                        <p-fileUpload name="myfile" [customUpload]="true"
+                            (uploadHandler)="myUploader($event)">
+                        <ng-template pTemplate="content">
+                            <ul *ngIf="uploadedDocuments.length">
+                                <li *ngFor="let file of uploadedDocuments">{{file.documentId}} - {{file.documentName}}
+                                    bytes</li>
+                            </ul>
+                        </ng-template>
                         </p-fileUpload>
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer">
