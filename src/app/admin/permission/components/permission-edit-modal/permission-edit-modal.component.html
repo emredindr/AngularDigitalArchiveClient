@@ -27,7 +27,16 @@
                         </nz-select>
                         <validation-messages [formCtrl]="permissionGroupIdCtrl"></validation-messages>
                     </div>
+                    
+                    <!-- <div class="form-group">
+                        <label class="small mb-1">Kategori Tipi</label>
+                        <p-dropdown #categoryTypeCtrl="ngModel" [options]="categoryTypeList" (onChange)="onChangeCategoryType($event.value)"
+                            [(ngModel)]="selectedCategoryType" placeholder="Kategori tipini seçiniz : "
+                            name="categoryTypeId" optionLabel="name" styleClass="w-100" [required]="true"
+                            [showClear]="true"></p-dropdown>
+                        <validation-messages [formCtrl]="categoryTypeCtrl"></validation-messages>
 
+                    </div> -->
                     <!-- <div class="form-group">
                         <label class="small mb-1">Yetki Grubu</label>
                         <p-dropdown #permissionGroupCtrl="ngModel" [options]="permissionGroupList"

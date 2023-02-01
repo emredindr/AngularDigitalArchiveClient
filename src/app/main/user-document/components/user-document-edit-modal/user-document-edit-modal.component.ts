@@ -20,8 +20,8 @@ export class UserDocumentEditModalComponent implements OnInit {
 
   uploadDocumentUrl: string = "https://localhost:7048/api/Document/UploadDocument";
   userDocumentInput: UpdateUserDocumentInput = new UpdateUserDocumentInput();
-  // selectedUser: GetAllUserInfo | undefined;
-  // selectedCategory: GetAllCategoryInfo | undefined;
+  selectedUser: GetAllUserInfo | undefined;
+  selectedCategory: GetAllCategoryInfo | undefined;
 
   userDocument: GetAllUserDocumentInfo = new GetAllUserDocumentInfo;
   userList: GetAllUserInfo[] = [];

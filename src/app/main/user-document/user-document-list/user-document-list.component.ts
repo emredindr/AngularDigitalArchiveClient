@@ -6,7 +6,7 @@ import { Breadcrumb } from 'src/app/shared/models/navigation.model';
 import { PrimengTableHelper } from 'src/shared/helpers/PrimengTableHelper';
 import { CategoryService, GetAllCategoryInfo } from 'src/shared/services/category.service';
 import { GetAllUserDocumentInfo, UserDocumentService } from 'src/shared/services/user-document.service';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { UserDocumentCreateModalComponent } from '../components/user-document-create-modal/user-document-create-modal.component';
 import { UserDocumentEditModalComponent } from '../components/user-document-edit-modal/user-document-edit-modal.component';
 
@@ -160,11 +160,48 @@ export class UserDocumentListComponent implements OnInit {
     this.userDocumentEditModal.show(userDocumentId);
   }
   
-  deleteUserDocument() {
 
+  deleteUserDocument(userDocumentId: number) {
+    this.loading = true;
+
+    this._userDocumentService.deleteUserDocument(userDocumentId).subscribe(
+      (response) => {
+        this.reloadPage();
+
+        this.loading = false;
+      }
+    );
   }
+
+  confirmDeleteUserDocument(userDocumentId: number) {
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteUserDocument(userDocumentId);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+  previewUserDocument(){
+    Swal.fire('Çok yakındaa')
+  }
+  
   showCreateUserDocumentModal() {
     this.userDocumentCreateModal.show();
+  }
+
+  downloadUserDocument(){
+    Swal.fire('Çok yakındaa')
   }
 
   loadBreadcrumbs() {
@@ -172,6 +209,7 @@ export class UserDocumentListComponent implements OnInit {
       { text: "Ana Sayfa", active: false, link: "/main/home/dashboard" },
       { text: "Kullanıcı Dokümanları", active: true });
   }
+
 
   ngOnInit(): void {
     this.loadBreadcrumbs();

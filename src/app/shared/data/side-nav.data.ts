@@ -4,10 +4,11 @@ import { SideNavItems, SideNavSection } from "../models/navigation.model";
 export const sideNavSections: SideNavSection[] = [
     {
         text: 'Anasayfa',
-        items: ['dashboard'],
+        items: ['userDocumentList'],
+        // items: ['dashboard'],
     },
     {
-        text: 'User',
+        text: 'Kullanıcı',
         items: ['userList'],
     },
     {
@@ -18,10 +19,10 @@ export const sideNavSections: SideNavSection[] = [
         text: 'Yetki',
         items: ['permissionList','permissionGroupList'],
     },
-    {
-        text: 'Doküman',
-        items: ['userDocumentList'],
-    }
+    // {
+    //     text: 'Doküman',
+        
+    // }
 ];
 
 export const sideNavItems: SideNavItems = {

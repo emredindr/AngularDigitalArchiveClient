@@ -33,6 +33,7 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
   show() {
     this.clearInputs();
+
     this.getUserList();
     this.getCategoryList();
 
@@ -75,11 +76,13 @@ export class UserDocumentCreateModalComponent implements OnInit {
     this.hide();
     this.modalSave.emit();
   }
+
   clearInputs() {
+    this.userDocumentInput.documentTitle=undefined;
     this.selectedCategory = undefined;
     this.selectedUser = undefined;
-
   }
+  
   createUserDocument() {
     this.loading = true;
     if (!this.selectedCategory)
@@ -100,8 +103,6 @@ export class UserDocumentCreateModalComponent implements OnInit {
   }
 
   myUploader(event: any) {
-
-    console.log(event);
     this.upload(event.files[0]);
   }
 
@@ -129,9 +130,21 @@ export class UserDocumentCreateModalComponent implements OnInit {
           uploadedItem.documentId = response?.result?.documentId;
           uploadedItem.documentName = response?.result?.documentName
           this.uploadedDocuments.push(uploadedItem);
-
-        } else
-          alert("Dosya yükleme sırasında hata oluştu");
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Doküman başarıyla yüklendi',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        } 
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Dosya yüklenirken hata ile karşılaşıldı!'
+          })
+        }
       }
     }
     xhr.open(method, url, true);
