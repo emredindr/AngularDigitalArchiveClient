@@ -19,10 +19,10 @@ export class UserDocumentService {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(HttpClient) http: HttpClient,private _localStorageService:LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    constructor(@Inject(HttpClient) http: HttpClient, private _localStorageService: LocalStorageService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         // this.baseUrl ="https://localhost:7048";
-        this.baseUrl =environment.baseUrl;
+        this.baseUrl = environment.baseUrl;
 
     }
 
@@ -59,16 +59,16 @@ export class UserDocumentService {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
                 "Accept": "text/plain",
-              "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
+                "Authorization": `Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processGetAllUserDocumentByPage(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -81,12 +81,12 @@ export class UserDocumentService {
                 return _observableThrow(response_) as any as Observable<GetAllUserDocumentInfoPagedResult>;
         }));
     }
-    
+
     /**
      * @param userDocumentId (optional) 
      * @return Success
      */
-     getUserDocumentById(userDocumentId: number | undefined): Observable<GetAllUserDocumentInfo> {
+    getUserDocumentById(userDocumentId: number | undefined): Observable<GetAllUserDocumentInfo> {
         let url_ = this.baseUrl + "/api/UserDocument/GetUserDocumentById?";
         if (userDocumentId === null)
             throw new Error("The parameter 'userDocumentId' cannot be null.");
@@ -94,16 +94,16 @@ export class UserDocumentService {
             url_ += "userDocumentId=" + encodeURIComponent("" + userDocumentId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
                 "Accept": "text/plain",
-                "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
+                "Authorization": `Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processGetUserDocumentById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -121,19 +121,19 @@ export class UserDocumentService {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
+                (response as any).error instanceof Blob ? (response as any).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetAllUserDocumentInfo.fromJS(resultData200);
-            return _observableOf(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = GetAllUserDocumentInfo.fromJS(resultData200);
+                return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<GetAllUserDocumentInfo>(null as any);
@@ -149,17 +149,17 @@ export class UserDocumentService {
 
         const content_ = JSON.stringify(body);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
+                "Authorization": `Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processCreateUserDocument(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -177,16 +177,16 @@ export class UserDocumentService {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
+                (response as any).error instanceof Blob ? (response as any).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+                return _observableOf<void>(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<void>(null as any);
@@ -202,17 +202,17 @@ export class UserDocumentService {
 
         const content_ = JSON.stringify(body);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
+                "Authorization": `Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processUpdateUserDocument(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -230,16 +230,16 @@ export class UserDocumentService {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
+                (response as any).error instanceof Blob ? (response as any).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+                return _observableOf<void>(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<void>(null as any);
@@ -257,15 +257,15 @@ export class UserDocumentService {
             url_ += "userDocumentId=" + encodeURIComponent("" + userDocumentId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Authorization":`Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
+                "Authorization": `Bearer ${this._localStorageService.getItem(AppConsts.lsToken)}`
             })
         };
 
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processDeleteUserDocument(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -283,16 +283,16 @@ export class UserDocumentService {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
+                (response as any).error instanceof Blob ? (response as any).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+                return _observableOf<void>(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<void>(null as any);
@@ -301,19 +301,19 @@ export class UserDocumentService {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
+                (response as any).error instanceof Blob ? (response as any).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetAllUserDocumentInfoPagedResult.fromJS(resultData200);
-            return _observableOf(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = GetAllUserDocumentInfoPagedResult.fromJS(resultData200);
+                return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<GetAllUserDocumentInfoPagedResult>(null as any);
@@ -321,223 +321,227 @@ export class UserDocumentService {
 }
 
 export class GetAllUserDocumentInfoPagedResult implements IGetAllUserDocumentInfoPagedResult {
-  items!: GetAllUserDocumentInfo[] | undefined;
-  totalCount!: number;
+    items!: GetAllUserDocumentInfo[] | undefined;
+    totalCount!: number;
 
-  constructor(data?: IGetAllUserDocumentInfoPagedResult) {
-      if (data) {
-          for (var property in data) {
-              if (data.hasOwnProperty(property))
-                  (<any>this)[property] = (<any>data)[property];
-          }
-      }
-  }
+    constructor(data?: IGetAllUserDocumentInfoPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
 
-  init(_data?: any) {
-      if (_data) {
-          if (Array.isArray(_data["items"])) {
-              this.items = [] as any;
-              for (let item of _data["items"])
-                  this.items!.push(GetAllUserDocumentInfo.fromJS(item));
-          }
-          this.totalCount = _data["totalCount"];
-      }
-  }
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetAllUserDocumentInfo.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
 
-  static fromJS(data: any): GetAllUserDocumentInfoPagedResult {
-      data = typeof data === 'object' ? data : {};
-      let result = new GetAllUserDocumentInfoPagedResult();
-      result.init(data);
-      return result;
-  }
+    static fromJS(data: any): GetAllUserDocumentInfoPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllUserDocumentInfoPagedResult();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-      data = typeof data === 'object' ? data : {};
-      if (Array.isArray(this.items)) {
-          data["items"] = [];
-          for (let item of this.items)
-              data["items"].push(item.toJSON());
-      }
-      data["totalCount"] = this.totalCount;
-      return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
 }
 
 export interface IGetAllUserDocumentInfoPagedResult {
-  items: GetAllUserDocumentInfo[] | undefined;
-  totalCount: number;
+    items: GetAllUserDocumentInfo[] | undefined;
+    totalCount: number;
 }
 
 export interface IDocumentInfo {
-  id: number;
-  name: string | undefined;
-  contentType: string | undefined;
+    id: number;
+    name: string | undefined;
+    contentType: string | undefined;
+    downloadUrl: string | undefined;
 }
 
 export class DocumentUserInfo implements IDocumentUserInfo {
-  userId!: number;
-  name!: string | undefined;
-  surname!: string | undefined;
-  readonly fullName!: string | undefined;
+    userId!: number;
+    name!: string | undefined;
+    surname!: string | undefined;
+    readonly fullName!: string | undefined;
 
-  constructor(data?: IDocumentUserInfo) {
-      if (data) {
-          for (var property in data) {
-              if (data.hasOwnProperty(property))
-                  (<any>this)[property] = (<any>data)[property];
-          }
-      }
-  }
+    constructor(data?: IDocumentUserInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
 
-  init(_data?: any) {
-      if (_data) {
-          this.userId = _data["userId"];
-          this.name = _data["name"];
-          this.surname = _data["surname"];
-          (<any>this).fullName = _data["fullName"];
-      }
-  }
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            (<any>this).fullName = _data["fullName"];
+        }
+    }
 
-  static fromJS(data: any): DocumentUserInfo {
-      data = typeof data === 'object' ? data : {};
-      let result = new DocumentUserInfo();
-      result.init(data);
-      return result;
-  }
+    static fromJS(data: any): DocumentUserInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentUserInfo();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-      data = typeof data === 'object' ? data : {};
-      data["userId"] = this.userId;
-      data["name"] = this.name;
-      data["surname"] = this.surname;
-      data["fullName"] = this.fullName;
-      return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["fullName"] = this.fullName;
+        return data;
+    }
 }
 
 export interface IDocumentUserInfo {
-  userId: number;
-  name: string | undefined;
-  surname: string | undefined;
-  fullName: string | undefined;
+    userId: number;
+    name: string | undefined;
+    surname: string | undefined;
+    fullName: string | undefined;
 }
 
 export class DocumentCategoryInfo implements IDocumentCategoryInfo {
-  categoryId!: number;
-  name!: string | undefined;
+    categoryId!: number;
+    name!: string | undefined;
 
-  constructor(data?: IDocumentCategoryInfo) {
-      if (data) {
-          for (var property in data) {
-              if (data.hasOwnProperty(property))
-                  (<any>this)[property] = (<any>data)[property];
-          }
-      }
-  }
+    constructor(data?: IDocumentCategoryInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
 
-  init(_data?: any) {
-      if (_data) {
-          this.categoryId = _data["categoryId"];
-          this.name = _data["name"];
-      }
-  }
+    init(_data?: any) {
+        if (_data) {
+            this.categoryId = _data["categoryId"];
+            this.name = _data["name"];
+        }
+    }
 
-  static fromJS(data: any): DocumentCategoryInfo {
-      data = typeof data === 'object' ? data : {};
-      let result = new DocumentCategoryInfo();
-      result.init(data);
-      return result;
-  }
+    static fromJS(data: any): DocumentCategoryInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentCategoryInfo();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-      data = typeof data === 'object' ? data : {};
-      data["categoryId"] = this.categoryId;
-      data["name"] = this.name;
-      return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["categoryId"] = this.categoryId;
+        data["name"] = this.name;
+        return data;
+    }
 }
 
 export interface IDocumentCategoryInfo {
-  categoryId: number;
-  name: string | undefined;
+    categoryId: number;
+    name: string | undefined;
 }
 
 export class DocumentCategoryTypeInfo implements IDocumentCategoryTypeInfo {
-  categoryTpyeId!: number;
-  name!: string | undefined;
+    categoryTpyeId!: number;
+    name!: string | undefined;
 
-  constructor(data?: IDocumentCategoryTypeInfo) {
-      if (data) {
-          for (var property in data) {
-              if (data.hasOwnProperty(property))
-                  (<any>this)[property] = (<any>data)[property];
-          }
-      }
-  }
+    constructor(data?: IDocumentCategoryTypeInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
 
-  init(_data?: any) {
-      if (_data) {
-          this.categoryTpyeId = _data["categoryTpyeId"];
-          this.name = _data["name"];
-      }
-  }
+    init(_data?: any) {
+        if (_data) {
+            this.categoryTpyeId = _data["categoryTpyeId"];
+            this.name = _data["name"];
+        }
+    }
 
-  static fromJS(data: any): DocumentCategoryTypeInfo {
-      data = typeof data === 'object' ? data : {};
-      let result = new DocumentCategoryTypeInfo();
-      result.init(data);
-      return result;
-  }
+    static fromJS(data: any): DocumentCategoryTypeInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentCategoryTypeInfo();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-      data = typeof data === 'object' ? data : {};
-      data["categoryTpyeId"] = this.categoryTpyeId;
-      data["name"] = this.name;
-      return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["categoryTpyeId"] = this.categoryTpyeId;
+        data["name"] = this.name;
+        return data;
+    }
 }
 
 export interface IDocumentCategoryTypeInfo {
-  categoryTpyeId: number;
-  name: string | undefined;
+    categoryTpyeId: number;
+    name: string | undefined;
 }
 
 export class DocumentInfo implements IDocumentInfo {
-  id!: number;
-  name!: string | undefined;
-  contentType!: string | undefined;
+    id!: number;
+    name!: string | undefined;
+    contentType!: string | undefined;
+    downloadUrl!: string | undefined;
 
-  constructor(data?: IDocumentInfo) {
-      if (data) {
-          for (var property in data) {
-              if (data.hasOwnProperty(property))
-                  (<any>this)[property] = (<any>data)[property];
-          }
-      }
-  }
+    constructor(data?: IDocumentInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
 
-  init(_data?: any) {
-      if (_data) {
-          this.id = _data["id"];
-          this.name = _data["name"];
-          this.contentType = _data["contentType"];
-      }
-  }
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.contentType = _data["contentType"];
+            this.downloadUrl = _data["downloadUrl"];
+        }
+    }
 
-  static fromJS(data: any): DocumentInfo {
-      data = typeof data === 'object' ? data : {};
-      let result = new DocumentInfo();
-      result.init(data);
-      return result;
-  }
+    static fromJS(data: any): DocumentInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentInfo();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-      data = typeof data === 'object' ? data : {};
-      data["id"] = this.id;
-      data["name"] = this.name;
-      data["contentType"] = this.contentType;
-      return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["contentType"] = this.contentType;
+        data["downloadUrl"] = this.downloadUrl;
+        return data;
+    }
 }
 
 

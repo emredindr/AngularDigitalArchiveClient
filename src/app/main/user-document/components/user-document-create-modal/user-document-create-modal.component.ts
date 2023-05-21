@@ -18,7 +18,7 @@ export class UserDocumentCreateModalComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   @Input() modalTitle: string = "";
 
-  uploadDocumentUrl: string = environment.baseUrl + "/api/Document/UploadDocumentToAzure";
+  uploadDocumentUrl: string = environment.baseUrl + "/api/Document/UploadDocumentToFirebaseStorage";
   userDocumentInput: CreateUserDocumentInput = new CreateUserDocumentInput();
   loading: boolean;
   uploadedDocumentId: number;
@@ -131,7 +131,11 @@ export class UserDocumentCreateModalComponent implements OnInit {
 
           let uploadedItem = new UploadedDocumentInfo();
           uploadedItem.documentId = response?.result?.documentId;
-          uploadedItem.documentName = response?.result?.documentName
+          uploadedItem.documentName = response?.result?.documentName;
+          uploadedItem.documentDownloadUrl = response?.result?.documentDownloadUrl;
+          console.log(uploadedItem);
+          
+
           this.uploadedDocuments.push(uploadedItem);
           Swal.fire({
             position: 'top-end',

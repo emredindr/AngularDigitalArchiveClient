@@ -30,7 +30,6 @@ export class UserDocumentListComponent implements OnInit {
   userDocumentList: GetAllUserDocumentInfo[] = [];
   categoryTreeData: TreeNode[] = []
   
-  storageBaseUrl :string="https://archiveedmedia.blob.core.windows.net/documents/"
   imageBaseUrl:string;
   constructor(private _userDocumentService: UserDocumentService, private _categoryService: CategoryService, private _messageService: MessageService) {
     this._primengTableHelper = new PrimengTableHelper();

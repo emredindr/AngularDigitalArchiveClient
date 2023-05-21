@@ -35,13 +35,18 @@
                                     name="userName" placeholder="test@example.com" />
                             </div>
                         </div>
-                        <div class="col-md-6">
+                         <div class="col-md-6">
                             <div class="form-group">
+                        <label class="small mb-1">Email</label>
+                        <input class="form-control py-4" type="text" name="email" [(ngModel)]="userInput.email"
+                            placeholder="Enter email address" />
+                    </div>
+                       <!--     <div class="form-group">
                                 <label class="small mb-1">Doğum Tarihi</label>
                                 <input class="form-control py-4" [(ngModel)]="userInput.birthDate" type="text" #dp="bsDatepicker" bsDatepicker
                                     name="birthDay" placeholder="Doğum Tarihi" />
-                            </div>
-                        </div>
+                            </div>-->
+                        </div> 
                         <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <input placeholder="Datepicker" class="form-control" #dp="bsDatepicker" bsDatepicker>
@@ -49,11 +54,7 @@
                         </div> -->
                     </div>
 
-                    <div class="form-group">
-                        <label class="small mb-1">Email</label>
-                        <input class="form-control py-4" type="text" name="email" [(ngModel)]="userInput.email"
-                            placeholder="Enter email address" />
-                    </div>
+                    
                 </form>
             </div>
 
